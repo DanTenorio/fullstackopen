@@ -18,6 +18,8 @@ function App() {
       <p>Good: {good}</p>
       <p>Neutral: {neutral}</p>
       <p>Bad: {bad}</p>
+      <p>Avg: {(good - bad) / (good + bad)}</p>
+      <p>Positive feedback(%): {(good / (good + neutral + bad)) * 100}%</p>
     </div>
   )
 }
