@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import FeedbackButton from './components/FeedbackButton'
 
 
 
@@ -9,7 +10,14 @@ function App() {
 
   return (
     <div>
-      code here
+      <h1>give feedback</h1>
+      <FeedbackButton handleClick={() => setGood(good + 1)} name={'good'} />
+      <FeedbackButton handleClick={() => setNeutral(neutral + 1)} name={'neutral'} />
+      <FeedbackButton handleClick={() => setBad(bad + 1)} name={'bad'} />
+      <h2>statistics</h2>
+      <p>Good: {good}</p>
+      <p>Neutral: {neutral}</p>
+      <p>Bad: {bad}</p>
     </div>
   )
 }
