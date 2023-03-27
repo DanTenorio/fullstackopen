@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import FeedbackButton from './components/FeedbackButton'
+import Statistics from './components/Statistics'
 
 
 
@@ -14,12 +15,7 @@ function App() {
       <FeedbackButton handleClick={() => setGood(good + 1)} name={'good'} />
       <FeedbackButton handleClick={() => setNeutral(neutral + 1)} name={'neutral'} />
       <FeedbackButton handleClick={() => setBad(bad + 1)} name={'bad'} />
-      <h2>statistics</h2>
-      <p>Good: {good}</p>
-      <p>Neutral: {neutral}</p>
-      <p>Bad: {bad}</p>
-      <p>Avg: {(good - bad) / (good + bad)}</p>
-      <p>Positive feedback(%): {(good / (good + neutral + bad)) * 100}%</p>
+      <Statistics good={good} neutral={neutral} bad={bad} />
     </div>
   )
 }
