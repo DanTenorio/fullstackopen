@@ -33,6 +33,7 @@ function App() {
   return (
     <div >
       <p>{anecdotes[selected]}</p>
+      <p>Has {points[selected]} points</p>
       <button onClick={handleVoteClick}>vote</button>
       <button onClick={handleClick}>next anecdote</button>
     </div>
