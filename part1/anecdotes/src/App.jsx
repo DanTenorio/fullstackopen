@@ -14,6 +14,7 @@ function App() {
   ]
 
   const [selected, setSelected] = useState(0)
+  const [points, setPoints] = useState(new Uint8Array)
 
   function handleClick() {
     setSelected(Math.floor(Math.random() * 8))
