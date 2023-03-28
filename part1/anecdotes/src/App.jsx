@@ -14,15 +14,26 @@ function App() {
   ]
 
   const [selected, setSelected] = useState(0)
-  const [points, setPoints] = useState(new Uint8Array)
+  const [points, setPoints] = useState(Array(8).fill(0))
 
   function handleClick() {
     setSelected(Math.floor(Math.random() * 8))
   }
+  const handleVoteClick = () => {
+    setPoints(points.map((point, index) => {
+      if (index === selected) {
+        return point + 1
+      } else {
+        return point
+      }
+    }))
+  }
 
+  console.log(points)
   return (
     <div >
       <p>{anecdotes[selected]}</p>
+      <button onClick={handleVoteClick}>vote</button>
       <button onClick={handleClick}>next anecdote</button>
     </div>
   )
