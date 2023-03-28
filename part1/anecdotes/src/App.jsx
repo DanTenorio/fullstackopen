@@ -15,27 +15,34 @@ function App() {
 
   const [selected, setSelected] = useState(0)
   const [points, setPoints] = useState(Array(8).fill(0))
+  const [mostVoted, setMostVoted] = useState(0)
 
   function handleClick() {
     setSelected(Math.floor(Math.random() * 8))
   }
   const handleVoteClick = () => {
-    setPoints(points.map((point, index) => {
+    const updatedPoints = points.map((point, index) => {
       if (index === selected) {
         return point + 1
       } else {
         return point
       }
-    }))
+    })
+    setPoints(updatedPoints)
+    const updatedMostVoted = updatedPoints[selected] > updatedPoints[mostVoted] ? selected : mostVoted
+    setMostVoted(updatedMostVoted)
   }
-
   console.log(points)
+  console.log(mostVoted)
   return (
     <div >
+      <h1>Anecdote of the day</h1>
       <p>{anecdotes[selected]}</p>
       <p>Has {points[selected]} points</p>
       <button onClick={handleVoteClick}>vote</button>
       <button onClick={handleClick}>next anecdote</button>
+      <h2>Anecdote with the most votes</h2>
+      <p>{anecdotes[mostVoted]}</p>
     </div>
   )
 }
