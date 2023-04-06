@@ -1,10 +1,11 @@
 import Content from "./Content"
 import Header from "./Header"
-const Course = ({ course }) => {
+const Course = ({ courseName, parts }) => {
+    console.log(courseName);
     return (
         <>
-            <Header courseName={course.name} />
-            <Content parts={course.parts} />
+            <Header courseName={courseName} />
+            <Content parts={parts} />
         </>
     )
 }
