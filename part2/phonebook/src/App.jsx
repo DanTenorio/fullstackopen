@@ -1,5 +1,7 @@
 import { useState } from 'react'
-
+import SearchBar from './components/SearchBar.jsx'
+import PhoneForm from './components/PhoneForm.jsx'
+import Persons from './components/Persons.jsx'
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -11,6 +13,7 @@ const App = () => {
   const [searchedPersons, setSearchedPersons] = useState(persons)
   const [newName, setNewName] = useState('')
   const [newPhoneNumb, setNewPhoneNum] = useState('000-000-0000')
+  const [searchText, setSearchText] = useState('')
 
   const handleNameChange = (event) => {
     setNewName(event.target.value)
@@ -22,6 +25,7 @@ const App = () => {
 
   const handleSearchChange = (e) => {
     const searchText = e.target.value
+    setSearchText(searchText)
     const newSearchedPersons = persons.filter(person => person.name.toLowerCase().includes(searchText))
     setSearchedPersons(newSearchedPersons)
     console.log(newSearchedPersons);
@@ -36,9 +40,12 @@ const App = () => {
     const repeatedName = persons.find(person => JSON.stringify(person.name) === JSON.stringify(newName))
 
     if (repeatedName === undefined) {
-      setPersons(persons.concat(newNameObject))
+      const newPersons = persons.concat(newNameObject)
+      setPersons(newPersons)
       setNewName('')
       setNewPhoneNum('')
+      setSearchText('')
+      setSearchedPersons(newPersons)
     } else {
       alert(`${newName} is already in the phonebook`)
     }
@@ -49,22 +56,10 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <div>
-        <label>Search</label> <input onChange={handleSearchChange} />
-      </div>
-      <form onSubmit={handleSubmit}>
-        <div>
-          name: <input value={newName} onChange={handleNameChange} />
-        </div>
-        <div>
-          phone number: <input value={newPhoneNumb} onChange={handleNumberChange} />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      <SearchBar searchText={searchText} handleSearchChange={handleSearchChange} />
       <h2>Numbers</h2>
-      {searchedPersons.map((person, index) => <p key={index}>{person.name} {person.number}</p>)}
+      <PhoneForm newName={newName} newPhoneNumb={newPhoneNumb} handleNameChange={handleNameChange} handleNumberChange={handleNumberChange} handleSubmit={handleSubmit} />
+      <Persons searchedPersons={searchedPersons} />
     </div>
   )
 }
