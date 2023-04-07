@@ -17,9 +17,15 @@ const App = () => {
     const newNameObject = {
       name: newName
     }
-    console.log(newNameObject);
-    setPersons(persons.concat(newNameObject))
-    setNewName('  ')
+    const repeatedName = persons.find(person => JSON.stringify(person.name) === JSON.stringify(newName))
+
+    if (repeatedName === undefined) {
+      setPersons(persons.concat(newNameObject))
+      setNewName('  ')
+    } else {
+      alert(`${newName} is already in the phonebook`)
+    }
+
   }
 
 
