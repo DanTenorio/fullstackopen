@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import SearchBar from './components/SearchBar.jsx'
 import PhoneForm from './components/PhoneForm.jsx'
 import Persons from './components/Persons.jsx'
+import axios from 'axios'
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -14,6 +15,18 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newPhoneNumb, setNewPhoneNum] = useState('000-000-0000')
   const [searchText, setSearchText] = useState('')
+
+  useEffect(() => {
+    console.log('effect');
+    axios
+      .get('http://localhost:3001/persons')
+      .then(response => {
+        console.log('promise')
+        setPersons(response.data)
+        setSearchedPersons(response.data)
+      })
+
+  }, [])
 
   const handleNameChange = (event) => {
     setNewName(event.target.value)
