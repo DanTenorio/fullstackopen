@@ -1,8 +1,14 @@
 const Persons = (props) => {
-    console.log(props)
     return (
         <>
-            {props.searchedPersons.map(person => <p key={person.id}>{person.name} {person.number}<button onClick={handleDelete}>Delete</button></p>)}
+            {props.searchedPersons.map(person => {
+                return (
+                    <p key={person.id}>{person.name} {person.number}
+                        <button onClick={() => props.handleDelete(person.id)}>Delete
+                        </button>
+                    </p>
+                )
+            })}
         </>
     )
 }

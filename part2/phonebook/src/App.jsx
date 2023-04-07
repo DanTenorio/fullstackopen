@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import SearchBar from './components/SearchBar.jsx'
 import PhoneForm from './components/PhoneForm.jsx'
 import Persons from './components/Persons.jsx'
-import personservice from './services/personservice.js'
+import personservice from './services/personService.js'
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -49,7 +49,6 @@ const App = () => {
       number: newPhoneNumb
     }
     const repeatedName = persons.find(person => JSON.stringify(person.name) === JSON.stringify(newName))
-
     if (repeatedName === undefined) {
       personservice
         .create(newNameObject)
@@ -62,13 +61,37 @@ const App = () => {
           setSearchedPersons(newPersons)
         })
     } else {
-      alert(`${newName} is already in the phonebook`)
+      if (confirm(`${newName} is already in the phonebook replace the old phone number with a new one?`)) {
+        personservice
+          .update(repeatedName.id, newNameObject)
+          .then(res => {
+            const newPersons = persons.map(person => person.id === repeatedName.id ? newNameObject : person)
+            setPersons(newPersons)
+            setNewName('')
+            setNewPhoneNum('')
+            setSearchText('')
+            setSearchedPersons(newPersons)
+          })
+      }
+
     }
 
   }
 
   const handleDelete = (id) => {
-
+    if (confirm('Are you sure?')) {
+      personservice
+        .remove(id)
+        .then(res => {
+          const newPersons = persons.filter(person => person.id !== id)
+          console.log(newPersons)
+          setPersons(newPersons)
+          setSearchedPersons(newPersons)
+          setNewName('')
+          setNewPhoneNum('')
+          setSearchText('')
+        })
+    }
   }
 
 
