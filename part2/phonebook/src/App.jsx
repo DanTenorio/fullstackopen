@@ -53,12 +53,17 @@ const App = () => {
     const repeatedName = persons.find(person => JSON.stringify(person.name) === JSON.stringify(newName))
 
     if (repeatedName === undefined) {
-      const newPersons = persons.concat(newNameObject)
-      setPersons(newPersons)
-      setNewName('')
-      setNewPhoneNum('')
-      setSearchText('')
-      setSearchedPersons(newPersons)
+      axios
+        .post('http://localhost:3001/persons', newNameObject)
+        .then(res => {
+          console.log(res)
+          const newPersons = persons.concat(newNameObject)
+          setPersons(newPersons)
+          setNewName('')
+          setNewPhoneNum('')
+          setSearchText('')
+          setSearchedPersons(newPersons)
+        })
     } else {
       alert(`${newName} is already in the phonebook`)
     }

@@ -1,5 +1,4 @@
 const PhoneForm = (props) => {
-    console.log(props)
     return (
         <>
             <form onSubmit={props.handleSubmit}>
