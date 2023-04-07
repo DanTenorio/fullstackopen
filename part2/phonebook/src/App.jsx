@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import SearchBar from './components/SearchBar.jsx'
 import PhoneForm from './components/PhoneForm.jsx'
 import Persons from './components/Persons.jsx'
-import axios from 'axios'
+import personservice from './services/personservice.js'
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -17,11 +17,9 @@ const App = () => {
   const [searchText, setSearchText] = useState('')
 
   useEffect(() => {
-    console.log('effect');
-    axios
-      .get('http://localhost:3001/persons')
+    personservice
+      .getAll()
       .then(response => {
-        console.log('promise')
         setPersons(response.data)
         setSearchedPersons(response.data)
       })
@@ -53,11 +51,10 @@ const App = () => {
     const repeatedName = persons.find(person => JSON.stringify(person.name) === JSON.stringify(newName))
 
     if (repeatedName === undefined) {
-      axios
-        .post('http://localhost:3001/persons', newNameObject)
+      personservice
+        .create(newNameObject)
         .then(res => {
-          console.log(res)
-          const newPersons = persons.concat(newNameObject)
+          const newPersons = persons.concat(res.data)
           setPersons(newPersons)
           setNewName('')
           setNewPhoneNum('')
@@ -70,6 +67,10 @@ const App = () => {
 
   }
 
+  const handleDelete = (id) => {
+
+  }
+
 
   return (
     <div>
@@ -77,7 +78,7 @@ const App = () => {
       <SearchBar searchText={searchText} handleSearchChange={handleSearchChange} />
       <h2>Numbers</h2>
       <PhoneForm newName={newName} newPhoneNumb={newPhoneNumb} handleNameChange={handleNameChange} handleNumberChange={handleNumberChange} handleSubmit={handleSubmit} />
-      <Persons searchedPersons={searchedPersons} />
+      <Persons searchedPersons={searchedPersons} handleDelete={handleDelete} />
     </div>
   )
 }
