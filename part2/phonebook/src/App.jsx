@@ -3,6 +3,8 @@ import SearchBar from './components/SearchBar.jsx'
 import PhoneForm from './components/PhoneForm.jsx'
 import Persons from './components/Persons.jsx'
 import personservice from './services/personService.js'
+import Notification from './components/Notification.jsx'
+import './main.css'
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -15,6 +17,8 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newPhoneNumb, setNewPhoneNum] = useState('000-000-0000')
   const [searchText, setSearchText] = useState('')
+  const [message, setMessage] = useState('')
+  const [messageType, setMessageType] = useState(null)
 
   useEffect(() => {
     personservice
@@ -48,7 +52,9 @@ const App = () => {
       name: newName,
       number: newPhoneNumb
     }
+
     const repeatedName = persons.find(person => JSON.stringify(person.name) === JSON.stringify(newName))
+
     if (repeatedName === undefined) {
       personservice
         .create(newNameObject)
@@ -59,6 +65,12 @@ const App = () => {
           setNewPhoneNum('')
           setSearchText('')
           setSearchedPersons(newPersons)
+          setMessage(`${newName} has been added to the server`)
+          setMessageType('success')
+          setTimeout(() => {
+            setMessage(null)
+            setMessageType(null)
+          }, 5000)
         })
     } else {
       if (confirm(`${newName} is already in the phonebook replace the old phone number with a new one?`)) {
@@ -71,6 +83,12 @@ const App = () => {
             setNewPhoneNum('')
             setSearchText('')
             setSearchedPersons(newPersons)
+            setMessage(`${newName} has been updated to ${newPhoneNumb}`)
+            setMessageType('success')
+            setTimeout(() => {
+              setMessage(null)
+              setMessageType(null)
+            }, 5000)
           })
       }
 
@@ -98,6 +116,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={message} type={messageType} />
       <SearchBar searchText={searchText} handleSearchChange={handleSearchChange} />
       <h2>Numbers</h2>
       <PhoneForm newName={newName} newPhoneNumb={newPhoneNumb} handleNameChange={handleNameChange} handleNumberChange={handleNumberChange} handleSubmit={handleSubmit} />
