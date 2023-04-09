@@ -90,6 +90,16 @@ const App = () => {
               setMessageType(null)
             }, 5000)
           })
+          .catch(error => {
+            console.log(error);
+            setMessage(`${newName} has been deleted from the server`)
+            setMessageType('error')
+            setTimeout(() => {
+              setMessage(null)
+              setMessageType(null)
+            }, 5000)
+          }
+          )
       }
 
     }

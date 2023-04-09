@@ -7,6 +7,13 @@ const Notification = ({ message, type }) => {
             </div>
         )
     }
+    if (type === 'error') {
+        return (
+            <div className="error">
+                {message}
+            </div>
+        )
+    }
     return null
 }
 
